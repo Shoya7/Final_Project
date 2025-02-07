@@ -1,4 +1,4 @@
-/* Existing styles with improvements */
+git checkout -b NEW_BRANCH_NAME/* Existing styles with improvements */
 .race-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
