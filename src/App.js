@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import RaceCard from "./components/RaceCard";
 import "./App.css";
+import { fetchRaceData } from "./services/api";
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -34,13 +36,11 @@ function App() {
 
       try {
         const raceData = await Promise.all(
-          raceList.map(async (race) => {
-            const response = await fetch(
-              `https://www.dnd5eapi.co/api/races/${race}`
-            );
-            return response.json();
-          })
-        );
+          raceList.map((race) => fetchRaceData(race))
+        ).catch((error) => {
+          console.error("Error fetching races:", error);
+          setRaces([]);
+        });
         setRaces(raceData);
       } catch (error) {
         console.log("Error fetching races:", error);

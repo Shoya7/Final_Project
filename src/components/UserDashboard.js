@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import RaceCard from "./RaceCard";
 import "./UserDashboard.css";
-
+import { fetchRaceData } from "../services/api";
 const UserDashboard = () => {
   const [savedRaces, setSavedRaces] = useState([]);
   const [availableRaces, setAvailableRaces] = useState([]);
+  const [error, setError] = useState(null);
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   const loadSavedRaces = useCallback(() => {
@@ -17,27 +18,25 @@ const UserDashboard = () => {
 
   useEffect(() => {
     const fetchRaces = async () => {
-      const raceList = [
-        "dwarf",
-        "elf",
-        "halfling",
-        "human",
-        "dragonborn",
-        "gnome",
-        "half-elf",
-        "half-orc",
-        "tiefling",
-      ];
-
-      const raceData = await Promise.all(
-        raceList.map(async (race) => {
-          const response = await fetch(
-            `https://www.dnd5eapi.co/api/races/${race}`
-          );
-          return response.json();
-        })
-      );
-      setAvailableRaces(raceData);
+      try {
+        const raceList = [
+          "dwarf",
+          "elf",
+          "halfling",
+          "human",
+          "dragonborn",
+          "gnome",
+          "half-elf",
+          "half-orc",
+          "tiefling",
+        ];
+        const raceData = await Promise.all(
+          raceList.map((race) => fetchRaceData(race))
+        );
+        setAvailableRaces(raceData);
+      } catch (error) {
+        setError("Unable to load races. Please try again later.");
+      }
     };
 
     fetchRaces();
@@ -46,6 +45,13 @@ const UserDashboard = () => {
 
   const handleSaveRace = (race) => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    return (
+      <div className="dashboard-container">
+        {error && <div className="error-message">{error}</div>}
+        {/* Rest of your component */}
+      </div>
+    );
     const userIndex = users.findIndex(
       (user) => user.email === currentUser.email
     );
