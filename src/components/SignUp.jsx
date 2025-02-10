@@ -50,14 +50,12 @@ const SignUp = () => {
       return;
     }
 
-    // Check if user already exists
     const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
     if (existingUsers.some((user) => user.email === formData.email)) {
       setError("Email already registered");
       return;
     }
 
-    // Create new user
     const newUser = {
       username: formData.username,
       email: formData.email,
@@ -66,20 +64,19 @@ const SignUp = () => {
       savedClasses: [],
     };
 
-    // Save user
     localStorage.setItem("users", JSON.stringify([...existingUsers, newUser]));
     localStorage.setItem("currentUser", JSON.stringify(newUser));
 
-    // Navigate to dashboard
     navigate("/dashboard");
   };
 
   return (
-    <div className="auth-container">
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <h2>Create Account</h2>
-        {error && <div className="error-message">{error}</div>}
+    <div className="auth">
+      <form className="auth__form" onSubmit={handleSubmit}>
+        <h2 className="auth__title">Create Account</h2>
+        {error && <div className="dnd__error">{error}</div>}
         <input
+          className="auth__input"
           type="text"
           placeholder="Username"
           value={formData.username}
@@ -88,12 +85,14 @@ const SignUp = () => {
           }
         />
         <input
+          className="auth__input"
           type="email"
           placeholder="Email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
         <input
+          className="auth__input"
           type="password"
           placeholder="Password"
           value={formData.password}
@@ -102,6 +101,7 @@ const SignUp = () => {
           }
         />
         <input
+          className="auth__input"
           type="password"
           placeholder="Confirm Password"
           value={formData.confirmPassword}
@@ -109,7 +109,9 @@ const SignUp = () => {
             setFormData({ ...formData, confirmPassword: e.target.value })
           }
         />
-        <button type="submit">Sign Up</button>
+        <button className="auth__button" type="submit">
+          Sign Up
+        </button>
       </form>
     </div>
   );

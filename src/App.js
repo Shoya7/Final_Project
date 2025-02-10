@@ -56,26 +56,26 @@ function App() {
   };
 
   const NavBar = () => (
-    <nav className="nav-bar">
-      <Link to="/" className="nav-brand">
+    <nav className="navbar">
+      <Link to="/" className="navbar__brand">
         D&D Races
       </Link>
-      <div className="nav-links">
+      <div className="navbar__links">
         {isAuthenticated ? (
           <>
-            <Link to="/dashboard" className="nav-button">
+            <Link to="/dashboard" className="navbar__button">
               Dashboard
             </Link>
-            <button onClick={handleLogout} className="nav-button">
+            <button onClick={handleLogout} className="navbar__button">
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="nav-button">
+            <Link to="/login" className="navbar__button">
               Login
             </Link>
-            <Link to="/signup" className="nav-button">
+            <Link to="/signup" className="navbar__button">
               Sign Up
             </Link>
           </>
@@ -85,9 +85,9 @@ function App() {
   );
 
   const MainComponent = () => (
-    <div className="dnd-container">
-      <h1 className="title">Races of the Realm</h1>
-      <div className="race-cards">
+    <div className="dnd">
+      <h1 className="dnd__title">Races of the Realm</h1>
+      <div className="races">
         {races.map((race) => (
           <RaceCard
             key={race.index}

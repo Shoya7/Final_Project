@@ -61,26 +61,32 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <h1>Welcome, {currentUser.username}!</h1>
+    <div className="dashboard">
+      <h1 className="dashboard__title">Welcome, {currentUser.username}!</h1>
 
-      <section className="saved-races">
-        <h2>Your Saved Races</h2>
-        <div className="race-grid">
+      <section className="dashboard__section dashboard__saved">
+        <h2 className="dashboard__title">Your Saved Races</h2>
+        <div className="dashboard__grid">
           {savedRaces.map((race) => (
-            <RaceCard key={race.index} race={race} saved={true} />
+            <div key={race.index} className="dashboard__card">
+              <RaceCard race={race} saved={true} />
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="available-races">
-        <h2>Available Races</h2>
-        <div className="race-grid">
+      <section className="dashboard__section">
+        <h2 className="dashboard__title">Available Races</h2>
+        <div className="dashboard__grid">
           {availableRaces.map((race) => (
-            <div key={race.index} className="race-card-container">
+            <div key={race.index} className="dashboard__card">
               <RaceCard race={race} />
               <button
-                className="save-button"
+                className={`dashboard__button ${
+                  savedRaces.some((saved) => saved.index === race.index)
+                    ? "dashboard__button--disabled"
+                    : ""
+                }`}
                 onClick={() => handleSaveRace(race)}
                 disabled={savedRaces.some(
                   (saved) => saved.index === race.index

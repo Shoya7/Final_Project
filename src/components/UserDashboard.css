@@ -1,23 +1,23 @@
-.dashboard-container {
+.dashboard {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.race-grid {
+.dashboard__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin-top: 1rem;
 }
 
-.race-card-container {
+.dashboard__card {
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
-.save-button {
+.dashboard__button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   background-color: #ffd700;
@@ -29,27 +29,26 @@
   transition: all 0.3s ease;
 }
 
-.save-button:disabled {
+.dashboard__button--disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }
 
-.save-button:hover:not(:disabled) {
+.dashboard__button:hover:not(:disabled) {
   transform: translateY(-2px);
   background-color: #ffed4a;
 }
 
-section {
+.dashboard__section {
   margin-bottom: 3rem;
 }
 
-h1,
-h2 {
+.dashboard__title {
   color: #2c3e50;
   margin-bottom: 1rem;
 }
 
-.saved-races {
+.dashboard__saved {
   background-color: rgba(255, 215, 0, 0.1);
   padding: 2rem;
   border-radius: 8px;

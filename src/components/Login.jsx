@@ -19,11 +19,8 @@ const Login = ({ setIsAuthenticated, races }) => {
     );
 
     if (user) {
-      // Update authentication state and user data
       localStorage.setItem("currentUser", JSON.stringify(user));
       setIsAuthenticated(true);
-
-      // Immediate navigation to dashboard with races data
       navigate("/dashboard", {
         state: { races },
         replace: true,
@@ -34,11 +31,12 @@ const Login = ({ setIsAuthenticated, races }) => {
   };
 
   return (
-    <div className="auth-container">
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <h2>Welcome Back</h2>
-        {error && <div className="error-message">{error}</div>}
+    <div className="auth">
+      <form className="auth__form" onSubmit={handleSubmit}>
+        <h2 className="auth__title">Welcome Back</h2>
+        {error && <div className="auth__error">{error}</div>}
         <input
+          className="auth__input"
           type="email"
           placeholder="Email"
           value={formData.email}
@@ -46,6 +44,7 @@ const Login = ({ setIsAuthenticated, races }) => {
           required
         />
         <input
+          className="auth__input"
           type="password"
           placeholder="Password"
           value={formData.password}
@@ -54,7 +53,9 @@ const Login = ({ setIsAuthenticated, races }) => {
           }
           required
         />
-        <button type="submit">Login</button>
+        <button className="auth__button" type="submit">
+          Login
+        </button>
       </form>
     </div>
   );

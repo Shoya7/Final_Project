@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getRaces } from "../utils/RaceApi";
+import RaceCard from "./RaceCard";
 
 const RaceList = () => {
   const [races, setRaces] = useState([]);
@@ -27,20 +28,22 @@ const RaceList = () => {
     setVisibleCount((prev) => prev + 3);
   };
 
-  if (loading) return <div className="loading">Loading races...</div>;
-  if (error) return <div className="error">{error}</div>;
-  if (!races.length) return <div className="error">Nothing found</div>;
+  if (loading) return <div className="races__loading">Loading races...</div>;
+  if (error) return <div className="races__error">{error}</div>;
+  if (!races.length) return <div className="races__error">Nothing found</div>;
 
   return (
-    <div className="race-cards page-transition">
+    <div className="races races--animated">
       {races.slice(0, visibleCount).map((race) => (
         <RaceCard key={race.id} race={race} />
       ))}
       {visibleCount < races.length && (
-        <button className="nav-button" onClick={showMore}>
+        <button className="races__button" onClick={showMore}>
           Show More
         </button>
       )}
     </div>
   );
 };
+
+export default RaceList;
