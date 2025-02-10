@@ -8,6 +8,15 @@ git checkout -b NEW_BRANCH_NAME/* Existing styles with improvements */
   margin: 0 auto;
 }
 
+.race-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .nav-bar {
   display: flex;
   justify-content: space-between;

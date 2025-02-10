@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import RaceCard from "./RaceCard";
 import "./UserDashboard.css";
 
@@ -7,8 +7,15 @@ const UserDashboard = () => {
   const [availableRaces, setAvailableRaces] = useState([]);
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
+  const loadSavedRaces = useCallback(() => {
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const currentUserData = users.find(
+      (user) => user.email === currentUser.email
+    );
+    setSavedRaces(currentUserData?.savedRaces || []);
+  }, [currentUser.email]);
+
   useEffect(() => {
-    // Fetch available races
     const fetchRaces = async () => {
       const raceList = [
         "dwarf",
@@ -35,15 +42,7 @@ const UserDashboard = () => {
 
     fetchRaces();
     loadSavedRaces();
-  }, []);
-
-  const loadSavedRaces = () => {
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const currentUserData = users.find(
-      (user) => user.email === currentUser.email
-    );
-    setSavedRaces(currentUserData?.savedRaces || []);
-  };
+  }, [loadSavedRaces]);
 
   const handleSaveRace = (race) => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");

@@ -60,8 +60,6 @@ function App() {
       <Link to="/" className="nav-brand">
         D&D Races
       </Link>
-
-      {/* <div className="nav-brand">D&D Races</div> */}
       <div className="nav-links">
         {isAuthenticated ? (
           <>
@@ -101,7 +99,6 @@ function App() {
     </div>
   );
 
-  // Protected Route Component
   const ProtectedRoute = ({ children }) => {
     return isAuthenticated ? children : <Navigate to="/login" />;
   };
@@ -114,18 +111,10 @@ function App() {
           path="/signup"
           element={<SignUp setIsAuthenticated={setIsAuthenticated} />}
         />
-        {/* <Route
-          path="/login"
-          element={<Login setIsAuthenticated={setIsAuthenticated} />}
-        /> */}
-        // In your routes section, update the Login route:
         <Route
           path="/login"
           element={
-            <Login
-              setIsAuthenticated={setIsAuthenticated}
-              races={races} // Pass races data to Login component
-            />
+            <Login setIsAuthenticated={setIsAuthenticated} races={races} />
           }
         />
         <Route
