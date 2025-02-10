@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import RaceCard from "./components/RaceCard";
 import "./App.css";
+import { fetchRaceData } from "./services/api";
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -34,13 +36,11 @@ function App() {
 
       try {
         const raceData = await Promise.all(
-          raceList.map(async (race) => {
-            const response = await fetch(
-              `https://www.dnd5eapi.co/api/races/${race}`
-            );
-            return response.json();
-          })
-        );
+          raceList.map((race) => fetchRaceData(race))
+        ).catch((error) => {
+          console.error("Error fetching races:", error);
+          setRaces([]);
+        });
         setRaces(raceData);
       } catch (error) {
         console.log("Error fetching races:", error);
@@ -56,28 +56,26 @@ function App() {
   };
 
   const NavBar = () => (
-    <nav className="nav-bar">
-      <Link to="/" className="nav-brand">
+    <nav className="navbar">
+      <Link to="/" className="navbar__brand">
         D&D Races
       </Link>
-
-      {/* <div className="nav-brand">D&D Races</div> */}
-      <div className="nav-links">
+      <div className="navbar__links">
         {isAuthenticated ? (
           <>
-            <Link to="/dashboard" className="nav-button">
+            <Link to="/dashboard" className="navbar__button">
               Dashboard
             </Link>
-            <button onClick={handleLogout} className="nav-button">
+            <button onClick={handleLogout} className="navbar__button">
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="nav-button">
+            <Link to="/login" className="navbar__button">
               Login
             </Link>
-            <Link to="/signup" className="nav-button">
+            <Link to="/signup" className="navbar__button">
               Sign Up
             </Link>
           </>
@@ -87,9 +85,9 @@ function App() {
   );
 
   const MainComponent = () => (
-    <div className="dnd-container">
-      <h1 className="title">Races of the Realm</h1>
-      <div className="race-cards">
+    <div className="dnd">
+      <h1 className="dnd__title">Races of the Realm</h1>
+      <div className="races">
         {races.map((race) => (
           <RaceCard
             key={race.index}
@@ -101,7 +99,6 @@ function App() {
     </div>
   );
 
-  // Protected Route Component
   const ProtectedRoute = ({ children }) => {
     return isAuthenticated ? children : <Navigate to="/login" />;
   };
@@ -114,18 +111,10 @@ function App() {
           path="/signup"
           element={<SignUp setIsAuthenticated={setIsAuthenticated} />}
         />
-        {/* <Route
-          path="/login"
-          element={<Login setIsAuthenticated={setIsAuthenticated} />}
-        /> */}
-        // In your routes section, update the Login route:
         <Route
           path="/login"
           element={
-            <Login
-              setIsAuthenticated={setIsAuthenticated}
-              races={races} // Pass races data to Login component
-            />
+            <Login setIsAuthenticated={setIsAuthenticated} races={races} />
           }
         />
         <Route

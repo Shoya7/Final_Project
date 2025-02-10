@@ -3,10 +3,10 @@ import "./ClassCard.css";
 
 const ClassCard = ({ className, role, description }) => {
   return (
-    <div className="class-card">
-      <h3 className="class-name">{className}</h3>
-      <span className="class-role">{role}</span>
-      <p className="class-description">{description}</p>
+    <div className="class">
+      <h3 className="class__name">{className}</h3>
+      <span className="class__role">{role}</span>
+      <p className="class__description">{description}</p>
     </div>
   );
 };

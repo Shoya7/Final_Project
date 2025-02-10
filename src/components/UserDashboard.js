@@ -1,52 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import RaceCard from "./RaceCard";
 import "./UserDashboard.css";
-
+import { fetchRaceData } from "../services/api";
 const UserDashboard = () => {
   const [savedRaces, setSavedRaces] = useState([]);
   const [availableRaces, setAvailableRaces] = useState([]);
+  const [error, setError] = useState(null);
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-  useEffect(() => {
-    // Fetch available races
-    const fetchRaces = async () => {
-      const raceList = [
-        "dwarf",
-        "elf",
-        "halfling",
-        "human",
-        "dragonborn",
-        "gnome",
-        "half-elf",
-        "half-orc",
-        "tiefling",
-      ];
-
-      const raceData = await Promise.all(
-        raceList.map(async (race) => {
-          const response = await fetch(
-            `https://www.dnd5eapi.co/api/races/${race}`
-          );
-          return response.json();
-        })
-      );
-      setAvailableRaces(raceData);
-    };
-
-    fetchRaces();
-    loadSavedRaces();
-  }, []);
-
-  const loadSavedRaces = () => {
+  const loadSavedRaces = useCallback(() => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
     const currentUserData = users.find(
       (user) => user.email === currentUser.email
     );
     setSavedRaces(currentUserData?.savedRaces || []);
-  };
+  }, [currentUser.email]);
+
+  useEffect(() => {
+    const fetchRaces = async () => {
+      try {
+        const raceList = [
+          "dwarf",
+          "elf",
+          "halfling",
+          "human",
+          "dragonborn",
+          "gnome",
+          "half-elf",
+          "half-orc",
+          "tiefling",
+        ];
+        const raceData = await Promise.all(
+          raceList.map((race) => fetchRaceData(race))
+        );
+        setAvailableRaces(raceData);
+      } catch (error) {
+        setError("Unable to load races. Please try again later.");
+      }
+    };
+
+    fetchRaces();
+    loadSavedRaces();
+  }, [loadSavedRaces]);
 
   const handleSaveRace = (race) => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    return (
+      <div className="dashboard-container">
+        {error && <div className="error-message">{error}</div>}
+        {/* Rest of your component */}
+      </div>
+    );
     const userIndex = users.findIndex(
       (user) => user.email === currentUser.email
     );
@@ -62,26 +67,32 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <h1>Welcome, {currentUser.username}!</h1>
+    <div className="dashboard">
+      <h1 className="dashboard__title">Welcome, {currentUser.username}!</h1>
 
-      <section className="saved-races">
-        <h2>Your Saved Races</h2>
-        <div className="race-grid">
+      <section className="dashboard__section dashboard__saved">
+        <h2 className="dashboard__title">Your Saved Races</h2>
+        <div className="dashboard__grid">
           {savedRaces.map((race) => (
-            <RaceCard key={race.index} race={race} saved={true} />
+            <div key={race.index} className="dashboard__card">
+              <RaceCard race={race} saved={true} />
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="available-races">
-        <h2>Available Races</h2>
-        <div className="race-grid">
+      <section className="dashboard__section">
+        <h2 className="dashboard__title">Available Races</h2>
+        <div className="dashboard__grid">
           {availableRaces.map((race) => (
-            <div key={race.index} className="race-card-container">
+            <div key={race.index} className="dashboard__card">
               <RaceCard race={race} />
               <button
-                className="save-button"
+                className={`dashboard__button ${
+                  savedRaces.some((saved) => saved.index === race.index)
+                    ? "dashboard__button--disabled"
+                    : ""
+                }`}
                 onClick={() => handleSaveRace(race)}
                 disabled={savedRaces.some(
                   (saved) => saved.index === race.index

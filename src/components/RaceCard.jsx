@@ -2,6 +2,18 @@ import React, { useState } from "react";
 import ClassCard from "./ClassCard";
 import "./RaceCard.css";
 
+const raceImages = {
+  dwarf: require("../assets/images/dwarf.jpg"),
+  elf: require("../assets/images/elf.jpg"),
+  halfling: require("../assets/images/halfling.jpg"),
+  human: require("../assets/images/human.jpg"),
+  dragonborn: require("../assets/images/dragonborn.jpg"),
+  gnome: require("../assets/images/gnome.jpg"),
+  "half-elf": require("../assets/images/halfelf.jpg"),
+  "half-orc": require("../assets/images/halforc.jpg"),
+  tiefling: require("../assets/images/tiefling.jpg"),
+};
+
 const RaceCard = ({ race }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -12,203 +24,155 @@ const RaceCard = ({ race }) => {
           name: "Fighter",
           role: "Tank",
           description:
-            "Natural armor proficiency and constitution bonus make excellent fighters",
+            "Natural armor proficiency and constitution bonus make dwarves excellent fighters.",
         },
         {
           name: "Cleric",
           role: "Healer",
           description:
-            "Wisdom and constitution help create durable divine spellcasters",
+            "Wisdom bonus and defensive abilities complement the cleric's role.",
         },
       ],
       elf: [
         {
           name: "Ranger",
-          role: "DPS",
+          role: "Damage Dealer",
           description:
-            "Dexterity bonus and natural affinity for nature make perfect rangers",
+            "Dexterity bonus and natural proficiency with bows make elves exceptional rangers.",
         },
         {
           name: "Wizard",
-          role: "Caster",
+          role: "Spellcaster",
           description:
-            "High intelligence and magical affinity create powerful wizards",
+            "High intelligence and natural magic affinity suit the wizard class perfectly.",
         },
       ],
       halfling: [
         {
           name: "Rogue",
-          role: "Stealth/DPS",
-          description: "Small size and natural stealth make excellent thieves",
+          role: "Stealth",
+          description:
+            "Natural stealth abilities and size make halflings perfect rogues.",
         },
         {
           name: "Bard",
-          role: "Support/Magic",
-          description:
-            "Charismatic nature and luck powers enhance bardic abilities",
-        },
-        {
-          name: "Ranger",
-          role: "Ranged/Stealth",
-          description: "Dexterity and size make great skirmishers",
+          role: "Support",
+          description: "Charisma and luck powers enhance bardic abilities.",
         },
       ],
       human: [
         {
-          name: "Fighter",
+          name: "Any Class",
           role: "Versatile",
-          description: "Adaptable nature makes excellent all-around warriors",
-        },
-        {
-          name: "Wizard",
-          role: "Arcane",
-          description: "Versatility allows mastery of complex magic",
+          description:
+            "Balanced ability scores make humans suitable for any class.",
         },
         {
           name: "Paladin",
-          role: "Tank/Divine",
-          description: "Strong leadership and adaptability suit holy warriors",
-        },
-        {
-          name: "Sorcerer",
-          role: "Arcane",
-          description: "Natural charisma enhances magical abilities",
+          role: "Tank/Healer",
+          description: "Versatility and determination make excellent paladins.",
         },
       ],
       dragonborn: [
         {
           name: "Paladin",
-          role: "Tank/Divine",
-          description:
-            "Natural leadership and strength make inspiring holy warriors",
+          role: "Tank",
+          description: "Natural strength and charisma make powerful paladins.",
         },
         {
           name: "Sorcerer",
-          role: "Arcane",
-          description: "Draconic heritage enhances magical abilities",
-        },
-        {
-          name: "Fighter",
-          role: "Melee/Tank",
-          description:
-            "Strength and intimidating presence make powerful warriors",
+          role: "Spellcaster",
+          description: "Draconic heritage enhances magical abilities.",
         },
       ],
       gnome: [
         {
           name: "Wizard",
-          role: "Arcane",
+          role: "Spellcaster",
           description:
-            "High intelligence and magical affinity excel at spellcasting",
+            "High intelligence and magical aptitude make excellent wizards.",
         },
         {
           name: "Artificer",
-          role: "Utility/Support",
-          description: "Natural inventors with magical creativity",
-        },
-        {
-          name: "Rogue",
-          role: "Stealth/Utility",
-          description: "Small size and cleverness make cunning tricksters",
+          role: "Support",
+          description: "Natural tinkering abilities enhance artificer skills.",
         },
       ],
       "half-elf": [
         {
-          name: "Bard",
-          role: "Support/Face",
-          description: "Charisma and versatility make natural performers",
-        },
-        {
           name: "Warlock",
-          role: "Arcane",
-          description: "Charisma and adaptability suit pact magic",
+          role: "Spellcaster",
+          description: "High charisma and versatility make perfect warlocks.",
         },
         {
-          name: "Sorcerer",
-          role: "Arcane",
-          description: "Natural charisma powers innate magic",
-        },
-        {
-          name: "Paladin",
-          role: "Tank/Face",
-          description: "Leadership and divine calling make inspiring champions",
+          name: "Bard",
+          role: "Support",
+          description:
+            "Social skills and adaptability enhance bardic abilities.",
         },
       ],
       "half-orc": [
         {
           name: "Barbarian",
-          role: "Melee/DPS",
-          description: "Savage attacks and endurance make fierce warriors",
+          role: "Damage Dealer",
+          description:
+            "Natural strength and endurance make fearsome barbarians.",
         },
         {
           name: "Fighter",
-          role: "Melee/Tank",
-          description: "Strength and endurance create powerful fighters",
-        },
-        {
-          name: "Ranger",
-          role: "Hunter/Melee",
-          description: "Survival instincts make excellent hunters",
+          role: "Tank",
+          description:
+            "Combat abilities and resilience create powerful fighters.",
         },
       ],
       tiefling: [
         {
           name: "Warlock",
-          role: "Arcane",
-          description: "Infernal heritage naturally suits pact magic",
+          role: "Spellcaster",
+          description: "Infernal heritage and charisma make natural warlocks.",
         },
         {
           name: "Sorcerer",
-          role: "Arcane",
-          description: "Innate magic enhanced by infernal bloodline",
-        },
-        {
-          name: "Paladin",
-          role: "Tank/Divine",
-          description: "Redemption themes make compelling holy warriors",
-        },
-        {
-          name: "Bard",
-          role: "Support/Face",
-          description: "Natural charisma powers performance abilities",
+          role: "Spellcaster",
+          description: "Innate magical abilities enhance sorcerous powers.",
         },
       ],
     };
-
     return recommendations[raceIndex] || [];
   };
 
   return (
-    <div className="flip-card">
+    <div className="card">
       <div
-        className={`flip-card-inner ${isFlipped ? "is-flipped" : ""}`}
+        className={`card__inner ${isFlipped ? "card__inner--flipped" : ""}`}
         onClick={() => setIsFlipped(!isFlipped)}
       >
-        {/* Front of Card */}
-        <div className="flip-card-front">
-          <h2>{race.name}</h2>
-          <div className="speed-stat">Speed: {race.speed}ft</div>
-          <div className="ability-scores">
+        <div className="card__side card__side--front">
+          <img
+            src={raceImages[race.index]}
+            alt={race.name}
+            className="card__image"
+          />
+          <h2 className="card__title">{race.name}</h2>
+          <div className="speed">{`Speed: ${race.speed}ft`}</div>
+          <div className="abilities">
             {race.ability_bonuses.map((bonus, index) => (
-              <span key={index} className="ability-tag">
-                {bonus.ability_score.name}: +{bonus.bonus}
-              </span>
-            ))}
-          </div>
-
-          <div className="traits">
-            {race.traits.map((trait, index) => (
-              <span key={index} className="trait-tag">
-                {trait.name}
+              <span key={index} className="abilities__tag">
+                {`${bonus.ability_score.name}: +${bonus.bonus}`}
               </span>
             ))}
           </div>
         </div>
-
-        {/* Back of Card */}
-        <div className="flip-card-back">
-          <h2>Recommended Classes</h2>
-          <div className="classes-container">
+        <div className="card__side card__side--back">
+          <h2 className="card__title">Recommended Classes</h2>
+          <div className="traits">
+            {race.traits.map((trait, index) => (
+              <span key={index} className="tag tag--trait">
+                {trait.name}
+              </span>
+            ))}
+          </div>
+          <div className="classes">
             {getRecommendedClasses(race.index).map((classInfo, index) => (
               <ClassCard
                 key={index}
